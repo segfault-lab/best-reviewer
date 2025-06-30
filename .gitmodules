@@ -1,3 +1,6 @@
 [submodule "Python-CRA-Example"]
 	path = Python-CRA-Example
 	url = https://github.com/jeonghwan-seo/Python-CRA-Example.git
+[submodule "20250630/Tennis"]
+	path = 20250630/Tennis
+	url = https://github.com/mincoding1/Tennis.git
