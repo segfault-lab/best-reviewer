@@ -1,3 +1,4 @@
+from unittest import TestCase
 from collections import OrderedDict as Odict
 
 
@@ -74,16 +75,65 @@ if __name__ == "__main__":
         (14, 16, 'Win for player2', 'player1', 'player2'),
     ]
 
-    for p1Score, p2Score, result, name1, name2 in test_cases:
-        game = TennisGame(name1, name2)
-        for i in range(p1Score):
-            game.won_point(name1)
-        for i in range(p2Score):
-            game.won_point(name2)
 
-        ret = game.score()
-        if ret == result:
-            print('P', end='')
-        else:
-            print(f"{p1Score} : {p2Score} 는 {result} 여야 합니다. 현재 결과는 {ret} 입니다")
-            print("FAIL")
+class Test(TestCase):
+    PLAYER1 = "Player 1"
+    PLAYER2 = "Player 2"
+
+    def setUp(self):
+        self.game = TennisGame(self.PLAYER1, self.PLAYER2)
+
+    def tearDown(self):
+        self.game = None
+
+    def test_initialization(self):
+        self.assertIsInstance(self.game, TennisGame)
+        self.assertEqual(self.game.players[self.PLAYER1], 0)
+        self.assertEqual(self.game.players[self.PLAYER2], 0)
+
+    def test_won_point(self):
+        self.game.won_point(self.PLAYER1)
+        self.assertEqual(self.game.players[self.PLAYER1], 1)
+        self.assertEqual(self.game.players[self.PLAYER2], 0)
+
+        self.game.won_point(self.PLAYER2)
+        self.assertEqual(self.game.players[self.PLAYER1], 1)
+        self.assertEqual(self.game.players[self.PLAYER2], 1)
+
+        self.game.won_point(self.PLAYER1)
+        self.assertEqual(self.game.players[self.PLAYER1], 2)
+        self.assertEqual(self.game.players[self.PLAYER2], 1)
+
+    def test_score(self):
+        self.assertEqual(self.game.score(), "Love-All")
+
+        self.game.won_point(self.PLAYER1)
+        self.assertEqual(self.game.score(), "Fifteen-Love")
+
+        self.game.won_point(self.PLAYER2)
+        self.assertEqual(self.game.score(), "Fifteen-All")
+
+        self.game.won_point(self.PLAYER1)
+        self.assertEqual(self.game.score(), "Thirty-Fifteen")
+
+        self.game.won_point(self.PLAYER2)
+        self.assertEqual(self.game.score(), "Thirty-All")
+
+        for _ in range(3):
+            self.game.won_point(self.PLAYER1)
+        self.assertEqual(self.game.score(), "Forty-Thirty")
+
+        for _ in range(3):
+            self.game.won_point(self.PLAYER2)
+        self.assertEqual(self.game.score(), "Deuce")
+
+    def test_equal_scores(self):
+        for i in range(4):
+            self.game.won_point(self.PLAYER1)
+            self.game.won_point(self.PLAYER2)
+            if i < 3:
+                self.assertEqual(self.game.score(), f"{TennisGame.SCORE_TEXT[i]}-All")
+            else:
+                self.assertEqual(self.game.score(), "Deuce")
+
+

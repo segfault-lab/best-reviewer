@@ -4,3 +4,15 @@
 [submodule "20250630/Tennis"]
 	path = 20250630/Tennis
 	url = https://github.com/mincoding1/Tennis.git
+[submodule "a20250702/ALU"]
+	path = a20250702/ALU
+	url = https://github.com/mincoding1/ALU.git
+[submodule "20250703/WheelOfFortune"]
+	path = 20250703/WheelOfFortune
+	url = https://github.com/mincoding1/WheelOfFortune.git
+[submodule "20250703/GildedRose"]
+	path = 20250703/GildedRose
+	url = https://github.com/mincoding1/GildedRose
+[submodule "20250703/SOLID"]
+	path = 20250703/SOLID
+	url = https://github.com/mincoding1/SOLID
